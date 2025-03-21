@@ -1,0 +1,5 @@
+get movie server endpoint: https://movieshdwatch.to/ajax/episode/list/120751
+
+get tv seasons endpoint: https://movieshdwatch.to/ajax/season/list/39514
+get tv season episodes endpoint: https://movieshdwatch.to/ajax/season/episodes/325
+get tv server endpoint: https://movieshdwatch.to/ajax/episode/servers/1522696
