@@ -3,3 +3,48 @@ get movie server endpoint: https://movieshdwatch.to/ajax/episode/list/120751
 get tv seasons endpoint: https://movieshdwatch.to/ajax/season/list/39514
 get tv season episodes endpoint: https://movieshdwatch.to/ajax/season/episodes/325
 get tv server endpoint: https://movieshdwatch.to/ajax/episode/servers/1522696
+
+
+import { Request, Response } from "express";
+import axios from "axios";
+
+export async function m3u8Proxy(req: Request, res: Response) {
+  try {
+    const url = req.query.url as any
+
+    if (url.startsWith('http') && !url.endsWith('.m3u8')) {
+      const response = await axios.get(url, {
+        responseType: "stream",
+        headers: {
+          Accept: "*/*",
+          Referer: "https://megacloud.store/"
+        }
+      });
+
+      const headers = { ...response.headers }
+      res.set(headers)
+      return response.data.pipe(res)
+    }
+
+    const response = await axios.get(url, {
+      responseType: "text",
+      headers: {
+        Accept: "*/*",
+        Referer: "https://megacloud.store/"
+      }
+    });
+    const updatedContent = response.data.split('\n').map((line: string) => {
+      if (line.startsWith("http")) {
+        return `m3u8-proxy?url=${encodeURIComponent(line)}`
+      }
+
+      return line;
+    }).join('\n')
+
+    const headers = { ...response.headers }
+    res.set(headers)
+    return res.status(200).send(updatedContent);
+  } catch (error: any) {
+    return res.status(500).json(error.message);
+  }
+}

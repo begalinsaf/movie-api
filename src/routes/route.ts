@@ -17,9 +17,16 @@ import {
   tvSeason,
   tvEpisode
 } from '../controllers/index';
+import { m3u8Proxy } from '../proxy/m3u8-proxy';
 
 export const router = Router();
 
+
+// proxy endpoints
+router.get('/m3u8-proxy', m3u8Proxy);
+
+
+// movie and tv endpoints
 router.get('/spotlight', spotlight);
 
 router.get('/trending', trending);
