@@ -7,6 +7,8 @@ export const m3u8Proxy = async (req: Request, res: Response) => {
     const url = req.query.url as string;
     if (!url) return res.status(400).json("url is required");
 
+    const baseUrl = url.replace(/[^/]+$/, "");
+
     const response = await axios.get(url, {
       responseType: 'stream',
       headers: { Accept: "*/*", Referer: "https://megacloud.store/" }
@@ -20,7 +22,7 @@ export const m3u8Proxy = async (req: Request, res: Response) => {
       return response.data.pipe(res);
     }
 
-    const transform = new LineTransform();
+    const transform = new LineTransform(baseUrl);
     return response.data.pipe(transform).pipe(res);
   } catch (error: any) {
     return res.status(500).send(error.message);

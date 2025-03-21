@@ -2,10 +2,12 @@ import { Transform, TransformCallback } from 'stream';
 
 export class LineTransform extends Transform {
   private buffer: string;
+  private baseUrl: string;
 
-  constructor() {
+  constructor(baseUrl: string) {
     super();
     this.buffer = '';
+    this.baseUrl = baseUrl
   }
 
   _transform(chunk: Buffer, encoding: BufferEncoding, callback: TransformCallback) {
@@ -32,6 +34,10 @@ export class LineTransform extends Transform {
   private processLine(line: string): string {
     if (line.startsWith('http') && !line.endsWith('.m3u8')) {
       return `m3u8-proxy?url=${encodeURIComponent(line)}`;
+    }
+
+    if (line.endsWith('.ts')) {
+      return `m3u8-proxy?url=${encodeURIComponent(this.baseUrl + line)}`
     }
 
     if (line.endsWith('.m3u8')) {
