@@ -7,34 +7,46 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        max-width: 600px;
+        max-width: 700px;
         margin: auto;
         padding: 20px;
+        background-color: #121212;
+        color: #fff;
       }
       h2 {
         text-align: center;
+        color: #ffcc00;
       }
       ul {
         list-style: none;
         padding: 0;
       }
       li {
-        margin-bottom: 10px;
-        border-bottom: 1px solid #ddd;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #444;
         padding-bottom: 10px;
+        background: #1e1e1e;
+        padding: 10px;
+        border-radius: 5px;
       }
       strong {
         display: block;
+        font-size: 1.2em;
+        color: #ffcc00;
       }
       p {
         margin: 5px 0;
-        color: #666;
+        color: #bbb;
       }
     </style>
   </head>
   <body>
     <h2>Movie & TV API Endpoints</h2>
     <ul>
+      <li>
+        <strong>/m3u8-proxy</strong>
+        <p>Proxy for m3u8 streaming</p>
+      </li>
       <li>
         <strong>/spotlight</strong>
         <p>Spotlight movies and TV shows</p>
@@ -82,6 +94,18 @@
       <li>
         <strong>/search/:keyword</strong>
         <p>Search for movies and TV shows</p>
+      </li>
+      <li>
+        <strong>/info/:type/:id</strong>
+        <p>Detailed movie or TV show info</p>
+      </li>
+      <li>
+        <strong>/cast/:castId</strong>
+        <p>Cast details</p>
+      </li>
+      <li>
+        <strong>/production/:productionId</strong>
+        <p>Production details</p>
       </li>
       <li>
         <strong>/tv-season/:id</strong>
