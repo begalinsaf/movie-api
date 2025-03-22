@@ -16,7 +16,9 @@ import {
   server,
   tvSeason,
   tvEpisode,
-  info
+  info,
+  cast,
+  production
 } from '../controllers/index';
 import { m3u8Proxy } from '../proxy/m3u8-proxy';
 
@@ -50,7 +52,11 @@ router.get('/country/:countryId', country);
 
 router.get('/search/:keyword', search);
 
-router.get('/info/:type/:id', info)
+router.get('/info/:type/:id', info);
+
+router.get('/cast/:castId', cast);
+
+router.get('/production/:productionId', production);
 
 router.get('/tv-season/:id', tvSeason);
 

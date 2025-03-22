@@ -15,6 +15,8 @@ import { search } from "./search";
 import { tvSeason } from "./tv-season";
 import { tvEpisode } from "./tv-episode";
 import { info } from './info';
+import { cast } from "./cast";
+import { production } from "./production";
 
 export {
   spotlight,
@@ -33,5 +35,7 @@ export {
   server,
   tvSeason,
   tvEpisode,
-  info
+  info,
+  cast,
+  production
 }
