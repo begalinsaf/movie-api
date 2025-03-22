@@ -14,6 +14,7 @@ import { country } from "./country";
 import { search } from "./search";
 import { tvSeason } from "./tv-season";
 import { tvEpisode } from "./tv-episode";
+import { info } from './info';
 
 export {
   spotlight,
@@ -31,5 +32,6 @@ export {
   sources,
   server,
   tvSeason,
-  tvEpisode
+  tvEpisode,
+  info
 }

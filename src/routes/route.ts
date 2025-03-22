@@ -15,16 +15,15 @@ import {
   sources,
   server,
   tvSeason,
-  tvEpisode
+  tvEpisode,
+  info
 } from '../controllers/index';
 import { m3u8Proxy } from '../proxy/m3u8-proxy';
 
 export const router = Router();
 
-
 // proxy endpoints
 router.get('/m3u8-proxy', m3u8Proxy);
-
 
 // movie and tv endpoints
 router.get('/spotlight', spotlight);
@@ -50,6 +49,8 @@ router.get('/country-list', countryList);
 router.get('/country/:countryId', country);
 
 router.get('/search/:keyword', search);
+
+router.get('/info/:type/:id', info)
 
 router.get('/tv-season/:id', tvSeason);
 
