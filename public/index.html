@@ -4,125 +4,626 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie & TV API Endpoints</title>
-    <style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-muted: var(--color-zinc-900);
+        --color-muted-foreground: var(--color-zinc-600);
+        --color-border: var(--color-zinc-800);
+        --color-desc: var(--color-zinc-400);
+
+        /* border radius */
+        --radius-radius: var(--radius-2xl);
+      }
+
+      * {
+        @apply box-border;
+      }
+
+      html {
+        @apply scroll-smooth;
+      }
+
+      html,
       body {
-        font-family: Arial, sans-serif;
-        max-width: 700px;
-        margin: auto;
-        padding: 20px;
-        background-color: #121212;
-        color: #fff;
+        @apply container mx-auto bg-zinc-950 text-zinc-200;
       }
-      h2 {
-        text-align: center;
-        color: #ffcc00;
+
+      body {
+        @apply py-20;
       }
-      ul {
-        list-style: none;
-        padding: 0;
+
+      h3 {
+        @apply text-xl font-bold;
       }
-      li {
-        margin-bottom: 15px;
-        border-bottom: 1px solid #444;
-        padding-bottom: 10px;
-        background: #1e1e1e;
-        padding: 10px;
-        border-radius: 5px;
+
+      nav {
+        @apply fixed inset-x-0 top-0;
       }
-      strong {
-        display: block;
-        font-size: 1.2em;
-        color: #ffcc00;
+
+      .nav {
+        @apply flex items-center justify-center gap-4 p-4 px-10;
       }
-      p {
-        margin: 5px 0;
-        color: #bbb;
+
+      #content .list {
+        @apply space-y-4 scroll-mt-20;
+      }
+
+      #content ul {
+        @apply flex flex-col gap-3;
+      }
+
+      #content ul li:not(.child) {
+        @apply space-y-3 rounded-2xl border border-border p-4;
+      }
+
+      #content ul li.child {
+        @apply space-y-4 pt-8 pl-10;
+      }
+
+      #content ul li.child p.title {
+        @apply relative pl-6 text-lg font-bold;
+      }
+
+      #content ul li.child p.title::before {
+        @apply absolute inset-y-0 left-0 my-auto block h-3 w-3 rounded-full bg-white/20 content-[''];
+      }
+
+      .path {
+        @apply flex items-center justify-between rounded-xl bg-muted p-2 pl-4;
+      }
+
+      .path span {
+        @apply font-semibold text-yellow-500;
+      }
+
+      .path button {
+        @apply grid h-9 w-9 cursor-pointer place-content-center transition-colors ease-in-out hover:text-white;
+      }
+      .path button.iddle {
+        @apply text-muted-foreground;
+      }
+      .path button.active {
+        @apply text-green-500;
+      }
+
+      .desc p {
+        @apply text-sm leading-relaxed text-desc;
+      }
+
+      #sidebar ul li button {
+        @apply block py-3 px-4 cursor-pointer w-full text-left font-semibold;
       }
     </style>
   </head>
   <body>
-    <h2>Movie & TV API Endpoints</h2>
-    <ul>
-      <li>
-        <strong>/m3u8-proxy</strong>
-        <p>Proxy for m3u8 streaming</p>
-      </li>
-      <li>
-        <strong>/spotlight</strong>
-        <p>Spotlight movies and TV shows</p>
-      </li>
-      <li>
-        <strong>/trending</strong>
-        <p>Trending movies and TV shows</p>
-      </li>
-      <li>
-        <strong>/latest-movie</strong>
-        <p>Latest movies</p>
-      </li>
-      <li>
-        <strong>/latest-tv-show</strong>
-        <p>Latest TV shows</p>
-      </li>
-      <li>
-        <strong>/top-imdb</strong>
-        <p>Top IMDB-rated movies and TV shows</p>
-      </li>
-      <li>
-        <strong>/movie</strong>
-        <p>Movie details</p>
-      </li>
-      <li>
-        <strong>/tv-show</strong>
-        <p>TV show details</p>
-      </li>
-      <li>
-        <strong>/genre-list</strong>
-        <p>List of all genres</p>
-      </li>
-      <li>
-        <strong>/genre/:genreId</strong>
-        <p>Movies and TV shows by genre</p>
-      </li>
-      <li>
-        <strong>/country-list</strong>
-        <p>List of all countries</p>
-      </li>
-      <li>
-        <strong>/country/:countryId</strong>
-        <p>Movies and TV shows by country</p>
-      </li>
-      <li>
-        <strong>/search/:keyword</strong>
-        <p>Search for movies and TV shows</p>
-      </li>
-      <li>
-        <strong>/info/:type/:id</strong>
-        <p>Detailed movie or TV show info</p>
-      </li>
-      <li>
-        <strong>/cast/:castId</strong>
-        <p>Cast details</p>
-      </li>
-      <li>
-        <strong>/production/:productionId</strong>
-        <p>Production details</p>
-      </li>
-      <li>
-        <strong>/tv-season/:id</strong>
-        <p>TV season details</p>
-      </li>
-      <li>
-        <strong>/tv-episode/:seasonId</strong>
-        <p>TV episode details</p>
-      </li>
-      <li>
-        <strong>/server/:type/:id</strong>
-        <p>Server details for streaming</p>
-      </li>
-      <li>
-        <strong>/sources/:serverId</strong>
-        <p>Available sources for streaming</p>
-      </li>
-    </ul>
+    <main class="space-y-10">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-bold">Movie & TV API Endpoints</h2>
+        <p class="text-desc">
+          This API provides access to various movie and TV-related endpoints.
+          You can use these endpoints to retrieve information about movies, TV
+          shows, and more.
+        </p>
+      </div>
+
+      <div class="grid gap-10 sm:grid-cols-5">
+        <div>
+          <aside
+            id="sidebar"
+            class="sticky overflow-y-auto top-20 max-h-[calc(100vh-18rem)] rounded-2xl bg-muted p-4"
+          >
+            <ul>
+              <li>
+                <button data-target="#proxy">Proxy</button>
+              </li>
+              <li>
+                <button data-target="#search">Search</button>
+              </li>
+              <li>
+                <button data-target="#discover">Discover</button>
+              </li>
+              <li>
+                <button data-target="#genre">Genre</button>
+              </li>
+              <li>
+                <button data-target="#country">Country</button>
+              </li>
+              <li>
+                <button data-target="#details">Details</button>
+              </li>
+              <li>
+                <button data-target="#stream">Stream</button>
+              </li>
+            </ul>
+          </aside>
+        </div>
+
+        <section id="content" class="space-y-10 sm:col-span-2">
+          <div id="proxy" class="list">
+            <h3>#Proxy</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/m3u8-proxy?url=sourceUrl</span>
+                </div>
+                <div class="desc">
+                  <p>Proxy for m3u8 streaming</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div id="search" class="list">
+            <h3>#Search</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/search/:keyword</span>
+                </div>
+                <div class="desc">
+                  <p>Search for movies and TV shows</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div id="discover" class="list">
+            <h3>#Discover</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/spotlight</span>
+                </div>
+                <div class="desc">
+                  <p>Spotlight movies and TV shows</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/trending</span>
+                </div>
+                <div class="desc">
+                  <p>Trending movies and TV shows</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/top-imdb</span>
+                </div>
+                <div class="desc">
+                  <p>Top IMDB-rated movies and TV shows</p>
+                </div>
+              </li>
+              <li class="child">
+                <p class="title">Movies</p>
+                <ul>
+                  <li>
+                    <div class="path">
+                      <span>/latest-movie</span>
+                    </div>
+                    <div class="desc">
+                      <p>Latest movies</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="path">
+                      <span>/movie</span>
+                    </div>
+                    <div class="desc">
+                      <p>Movie details</p>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="child">
+                <p class="title">Tv Show</p>
+                <ul>
+                  <li>
+                    <div class="path">
+                      <span>/latest-tv-show</span>
+                    </div>
+                    <div class="desc">
+                      <p>Latest TV shows</p>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div class="path">
+                      <span>/tv-show</span>
+                    </div>
+                    <div class="desc">
+                      <p>TV show details</p>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div id="genre" class="list">
+            <h3>#Genre</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/genre-list</span>
+                </div>
+                <div class="desc">
+                  <p>List of all genres</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/genre/:genreId</span>
+                </div>
+                <div class="desc">
+                  <p>Movies and TV shows by genre</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div id="country" class="list">
+            <h3>#Country</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/country-list</span>
+                </div>
+                <div class="desc">
+                  <p>List of all countries</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/country/:countryId</span>
+                </div>
+                <div class="desc">
+                  <p>Movies and TV shows by country</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div id="details" class="list">
+            <h3>#Details</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/info/:type/:id</span>
+                </div>
+                <div class="desc">
+                  <p>Detailed movie or TV show info</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/cast/:castId</span>
+                </div>
+                <div class="desc">
+                  <p>Cast details</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/production/:productionId</span>
+                </div>
+                <div class="desc">
+                  <p>Production details</p>
+                </div>
+              </li>
+
+              <li class="child">
+                <p class="title">Season & Episode</p>
+                <ul>
+                  <li>
+                    <div class="path">
+                      <span>/tv-season/:id</span>
+                    </div>
+                    <div class="desc">
+                      <p>TV season details</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="path">
+                      <span>/tv-episode/:seasonId</span>
+                    </div>
+                    <div class="desc">
+                      <p>TV episode details</p>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div id="stream" class="list">
+            <h3>#Stream</h3>
+
+            <ul>
+              <li>
+                <div class="path">
+                  <span>/server/:type/:id</span>
+                </div>
+                <div class="desc">
+                  <p>Server details for streaming</p>
+                </div>
+              </li>
+              <li>
+                <div class="path">
+                  <span>/sources/:serverId</span>
+                </div>
+                <div class="desc">
+                  <p>Available sources for streaming</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="w-full sm:col-span-2">
+          <aside
+            class="sticky top-20 flex flex-col gap-5 max-h-[calc(100vh-18rem)] rounded-2xl bg-muted p-4"
+          >
+            <div class="space-y-0">
+              <p class="text-lg font-bold">Playground</p>
+              <div class="flex items-end gap-4">
+                <div
+                  class="relative flex-1 flex items-center gap-0.5 p-3 border-b border-muted-foreground before:inline-block before:content-['{BASE}/'] before:opacity-50"
+                >
+                  <input
+                    list="path"
+                    id="endpoints"
+                    type="text"
+                    placeholder="Endpoints..."
+                    class="w-full inline-block outline-none disabled:opacity-30 flex-1 focus:outline-none"
+                    autocomplete="on"
+                  />
+                </div>
+
+                <datalist id="path">
+                  <option value="search/:keyword"></option>
+                  <option value="spotlight"></option>
+                  <option value="trending"></option>
+                  <option value="top-imdb"></option>
+                  <option value="latest-movie"></option>
+                  <option value="movie"></option>
+                  <option value="latest-tv-show"></option>
+                  <option value="tv-show"></option>
+                  <option value="genre-list"></option>
+                  <option value="genre/:genreId"></option>
+                  <option value="country-list"></option>
+                  <option value="country/:countryId"></option>
+                  <option value="info/:type/:id"></option>
+                  <option value="cast/:castId"></option>
+                  <option value="production/:productionId"></option>
+                  <option value="tv-season/:id"></option>
+                  <option value="tv-episode/:seasonId"></option>
+                  <option value="server/:type/:id"></option>
+                  <option value="sources/:serverId"></option>
+                </datalist>
+
+                <button
+                  id="submit"
+                  class="w-9 h-9 grid place-content-center disabled:opacity-60 disabled:pointer-events-none bg-zinc-800 hover:bg-yellow-500 hover:text-yellow-950 transition-colors ease-in-out rounded-full cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-arrow-right-icon lucide-arrow-right"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex overflow-hidden flex-col gap-3 flex-1">
+              <p>Response</p>
+              <pre class="rounded-lg flex-1 overflow-auto p-2 bg-zinc-800">
+                <code id="response" class="text-yellow-500 text-wrap"></code>
+              </pre>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <script type="text/javascript">
+      // Add this to your existing script tag
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get all elements with 'path' class
+        const pathElements = document.querySelectorAll(".path");
+
+        // For each path element, add a copy button
+        pathElements.forEach(function (element) {
+          // Create button element
+          const copyButton = document.createElement("button");
+          const copySvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy-icon lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+          const copiedSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy-check-icon lucide-copy-check"><path d="m12 15 2 2 4-4"/><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+
+          copyButton.innerHTML = copySvg;
+          copyButton.className = "iddle";
+
+          // Add click event handler
+          copyButton.addEventListener("click", function () {
+            // Get the text content from the span inside the path div
+            const textToCopy = element.querySelector("span").textContent;
+
+            // Copy to clipboard
+            navigator.clipboard
+              .writeText(textToCopy)
+              .then(function () {
+                copyButton.innerHTML = copiedSvg;
+                copyButton.classList.replace("iddle", "active");
+
+                // Reset button after 1.5 seconds
+                setTimeout(function () {
+                  copyButton.innerHTML = copySvg;
+                  copyButton.classList.replace("active", "iddle");
+                }, 1500);
+              })
+              .catch(function (err) {
+                console.error("Failed to copy text: ", err);
+              });
+          });
+
+          // Append button to the path element
+          element.appendChild(copyButton);
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get all section elements and menu links
+        const sections = document.querySelectorAll("#content > div.list");
+        const menuLinks = document.querySelectorAll("#sidebar ul li button");
+
+        // Function to handle active states
+        function setActiveLink(id) {
+          // Remove active class from all links
+          menuLinks.forEach((link) => {
+            link.classList.remove("active");
+            link.classList.add("text-zinc-400");
+            link.classList.remove("text-white");
+          });
+
+          // Add active class to current link
+          const activeLink = document.querySelector(
+            `#sidebar ul li button[data-target="#${id}"]`
+          );
+          if (activeLink) {
+            activeLink.classList.add("active");
+            activeLink.classList.remove("text-zinc-400");
+            activeLink.classList.add("text-white");
+          }
+        }
+
+        // Update active link based on scroll position
+        function updateActiveSection() {
+          // The amount of space from top of viewport to consider "at top"
+          const topThreshold = 100; // Adjust as needed
+
+          // Track which section is closest to being at the top
+          let activeSection = null;
+          let minDistance = Infinity;
+
+          sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            // Calculate how far this section is from the top threshold
+            const distance = Math.abs(rect.top - topThreshold);
+
+            // If this section is closer to the threshold than previous best match
+            if (distance < minDistance) {
+              minDistance = distance;
+              activeSection = section;
+            }
+          });
+
+          if (activeSection) {
+            setActiveLink(activeSection.id);
+          }
+        }
+
+        // Add click event listeners for smooth scrolling
+        menuLinks.forEach((link) => {
+          // Add default styling
+          link.classList.add(
+            "text-zinc-400",
+            "hover:text-white",
+            "transition-colors"
+          );
+
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Get the target section id
+            const targetId = this.getAttribute("data-target").substring(1);
+            const targetSection = document.getElementById(targetId);
+
+            // Scroll to section
+            targetSection.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            // Set active link manually
+            setActiveLink(targetId);
+          });
+        });
+
+        // Set initial state
+        updateActiveSection();
+
+        // Use scroll event for precise tracking
+        window.addEventListener("scroll", updateActiveSection);
+      });
+    </script>
+
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        const inputEl = document.querySelector("#endpoints");
+        const responseEl = document.querySelector("#response");
+        const submitBtn = document.querySelector("#submit");
+
+        const loaderSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle-icon lucide-loader-circle animate-spin text-yellow-500"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`;
+        const initialSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
+
+        const handleSubmit = async () => {
+          const val = inputEl.value;
+
+          if (val.length === 0) {
+            alert("Please enter a value");
+            return;
+          }
+
+          submitBtn.innerHTML = loaderSvg;
+          submitBtn.setAttribute("disabled", true);
+
+          inputEl.setAttribute("disabled", true);
+
+          const live = "https://movie-api-swart-five.vercel.app/";
+          const dev = "http://localhost:5000/";
+
+          try {
+            const response = await fetch(dev + val);
+            const data = await response.json();
+            responseEl.innerHTML = JSON.stringify(data, null, 2);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+
+          submitBtn.innerHTML = initialSvg;
+          submitBtn.removeAttribute("disabled");
+
+          inputEl.removeAttribute("disabled");
+        };
+
+        submitBtn.addEventListener("click", handleSubmit);
+
+        inputEl.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleSubmit();
+          }
+        });
+      });
+    </script>
   </body>
 </html>
